@@ -1,25 +1,33 @@
 #!/usr/bin/env python3
 
 """
-Tunnelblick
+# Tunnelblick
 
 A utility for sending simple instructions to Tunnelblick from command line.
 
 Supported commands:
+
 - connect -- opens Tunnelblick if it was closed and establishes a connection using the configuration specified in the
   config file.
 - quit -- quits Tunnelblick.
 
-Usage:
+## Setup
+
 1. Rename `tunnelblick.config.example.json` to `tunnelblick.config.json`.
 2. Set `configuration-name` field to the VPN configuration name already imported to Tunnelblick.
-3. Run the following:
+3. Create a symlink to the script:
 
    ```console
-   $ ./tunnelblick.py <connect/quit>
+   ln -s "$(pwd)/tunnelblick.py" /usr/local/bin/tunnelblick
    ```
 
-@author amrwc
+## Usage
+
+```console
+$ tunnelblick <connect/quit>
+```
+
+@author: amrwc
 """
 
 import json

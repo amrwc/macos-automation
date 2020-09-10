@@ -1,5 +1,27 @@
 #!/usr/bin/env python3
 
+"""
+# Wi-Fi
+
+A utility for turning Wi-Fi on/off from command-line.
+
+## Setup
+
+Create a symlink to the script:
+
+```console
+ln -s "$(pwd)/wifi.py" /usr/local/bin/wifi
+```
+
+## Usage
+
+```
+wifi <on/off>
+```
+
+@author: amrwc
+"""
+
 import sys
 from typing import List
 from utils import (
