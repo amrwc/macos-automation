@@ -21,7 +21,7 @@ Supported commands:
 3. Create a symlink.
 
    ```console
-   ln -s "\$(pwd)/tunnelblick.py" /usr/local/bin/tunnelblick
+   ln -s "$(pwd)/tunnelblick.py" /usr/local/bin/tunnelblick
    ```
 
 ### Usage
