@@ -1,0 +1,18 @@
+{
+    "printWidth": 79,
+    "proseWrap": "always",
+    "overrides": [
+        {
+            "files": "*.json",
+            "options": {
+                "tabWidth": 4
+            }
+        },
+        {
+            "files": "*.py",
+            "options": {
+                "printWidth": 119
+            }
+        }
+    ]
+}
