@@ -22,7 +22,7 @@ def raise_error(message: str, cmd: List[str] = [], usage: Callable[[], None] = N
         print_cmd(cmd)
         print('')
     else:
-        print_coloured(f"{message}\n\n", 'red')
+        print_coloured(f"{message}\n", 'red')
     if usage:
         usage()
     exit(1)
@@ -31,11 +31,9 @@ def raise_error(message: str, cmd: List[str] = [], usage: Callable[[], None] = N
 def log(message: str) -> None:
     """
     Logs the given message to the command line.
-    @param message: message to be displayed
+    @param message: log message to be displayed
     """
-    print_coloured(f"{'-' * 79}\n", 'blue', 'bold')
-    print_coloured(f"[{get_time()}]: {message}\n", 'white')
-    print_coloured(f"{'-' * 79}\n", 'blue', 'bold')
+    print_coloured(f"[{get_time()}] {message}\n", 'white')
 
 
 def print_cmd(cmd: List[str]) -> None:

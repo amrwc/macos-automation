@@ -47,8 +47,8 @@ def should_have_logged_message(monkeypatch) -> None:
     monkeypatch.setattr('utils.print_coloured', lambda *a, **k: print_coloured_calls.append(a))
 
     log(message)
-    assert len(print_coloured_calls) == 3
-    assert message in print_coloured_calls[1][0]
+    assert len(print_coloured_calls) == 1
+    assert message in print_coloured_calls[0][0]
 
 
 @pytest.mark.parametrize('cmd', [
