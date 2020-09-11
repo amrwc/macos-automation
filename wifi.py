@@ -33,6 +33,9 @@ from utils import (
 
 
 def main() -> None:
+    """
+    The application's entry point.
+    """
     argv: List[str] = sys.argv[1:]
     if len(argv) == 0:  # Strip the script's name from argv
         raise_error('No option provided', usage=usage)
@@ -42,6 +45,10 @@ def main() -> None:
 
 
 def set_wifi(on: bool) -> None:
+    """
+    Turns Wi-Fi to the given state.
+    @param on: whether to turn Wi-Fi on
+    """
     power: str = 'on' if on else 'off'
     log(f"Turning Wi-Fi {power}")
     # '\nHardware Port: Wi-Fi\nDevice: en0\n ...'
