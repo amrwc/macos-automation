@@ -52,6 +52,10 @@ def main() -> None:
 
 
 def set_bluetooth(on: bool) -> None:
+    """
+    Runs a `blueutil` command and turns Bluetooth to the given state.
+    @param on: whether to turn Bluetooth on
+    """
     power: str = '1' if on else '0'
     log(f"Turning Bluetooth {'on' if on else 'off'}")
     execute_cmd(['blueutil', '-p', power])
