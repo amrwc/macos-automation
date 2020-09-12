@@ -55,12 +55,10 @@ def should_have_raised_error_when_parsing_argv(monkeypatch, argv: List[str], exp
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
         assert kwargs['usage'] == usage
         raise SystemExit(0)  # Controlled early exit
-    monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
     monkeypatch.setattr(f"{MODULE_NAME}.raise_error", mock_raise_error)
 
     with pytest.raises(SystemExit) as e:
-        result: List[str] = parse_argv()
-        assert result == expected_result
+        assert parse_argv(argv) == expected_result
     assert e.type == SystemExit
     assert e.value.code == 0
 
@@ -70,9 +68,7 @@ def should_have_raised_error_when_parsing_argv(monkeypatch, argv: List[str], exp
     ([f"{MODULE_NAME}.py", 'quit'], ['quit']),
 ])
 def should_have_parsed_argv(monkeypatch, argv: List[str], expected_result: List[str]) -> None:
-    monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
-    result: List[str] = parse_argv()
-    assert result == expected_result
+    assert parse_argv(argv) == expected_result
 
 
 def should_not_have_gotten_config_when_the_file_doesnt_exist(monkeypatch) -> None:

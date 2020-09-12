@@ -47,11 +47,11 @@ SCRIPT_PARENT_DIR_PATH: str = os.path.dirname(os.path.realpath(sys.argv[0]))
 CONFIG_FILE_PATH: str = f"{SCRIPT_PARENT_DIR_PATH}/{CONFIG_FILE_NAME}"
 
 
-def main() -> None:
+def main(argv: List[str] = []) -> None:
     """
     The application's entry point.
     """
-    argv: List[str] = parse_argv()
+    argv = parse_argv((argv if argv else sys.argv))
     config: Dict[str, str] = get_config(CONFIG_FILE_PATH)
     instructions: Dict[str, str] = {
         'connect': f"connect \"{config['configuration-name']}\"",
@@ -65,12 +65,12 @@ def main() -> None:
         raise_error(f"Something went wrong; stdout: {stdout}")
 
 
-def parse_argv() -> List[str]:
+def parse_argv(argv: List[str]) -> List[str]:
     """
     Parses and verifies the command-line arguments and returns them with the script name removed.
     @return: command-line arguments
     """
-    argv: List[str] = sys.argv[1:]
+    argv = argv[1:]
     if len(argv) == 0:
         raise_error('No option provided', usage=usage)
     if argv[0] not in ('connect', 'quit'):

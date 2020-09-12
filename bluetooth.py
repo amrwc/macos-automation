@@ -38,11 +38,12 @@ from utils import (
 )
 
 
-def main() -> None:
+def main(argv: List[str] = []) -> None:
     """
     The application's entry point.
     """
-    argv: List[str] = sys.argv[1:]
+    if not argv:
+        argv = sys.argv[1:]
     if len(argv) == 0:
         raise_error('No option provided', usage=usage)
     option: str = argv[0]
