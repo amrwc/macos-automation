@@ -47,21 +47,14 @@ def should_have_run_uninterrupted(monkeypatch, argv: List[str], raised_error: bo
     assert len(raise_error_calls) == (1 if raised_error else 0)
 
 
-@pytest.mark.parametrize('argv, expected_result, raised_error', [
-    ([f"{MODULE_NAME}.py"], None, True),
-    ([f"{MODULE_NAME}.py", next_alphabetic(10)], None, True),
+@pytest.mark.parametrize('argv, expected_result', [
+    ([f"{MODULE_NAME}.py"], None),
+    ([f"{MODULE_NAME}.py", next_alphabetic(10)], None),
 ])
-def should_have_raised_error_when_parsing_argv(
-        monkeypatch,
-        argv: List[str],
-        expected_result: List[str],
-        raised_error: bool
-) -> None:
+def should_have_raised_error_when_parsing_argv(monkeypatch, argv: List[str], expected_result: List[str]) -> None:
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
         assert kwargs['usage'] == usage
-        raise_error_calls.append('')
         raise SystemExit(0)  # Controlled early exit
-    raise_error_calls: list = []
     monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
     monkeypatch.setattr(f"{MODULE_NAME}.raise_error", mock_raise_error)
 
@@ -70,7 +63,6 @@ def should_have_raised_error_when_parsing_argv(
         assert result == expected_result
     assert e.type == SystemExit
     assert e.value.code == 0
-    assert len(raise_error_calls) == (1 if raised_error else 0)
 
 
 @pytest.mark.parametrize('argv, expected_result', [

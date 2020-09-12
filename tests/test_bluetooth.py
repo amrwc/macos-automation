@@ -30,7 +30,7 @@ def should_have_raised_error_for_unknown_option(monkeypatch, argv: List[str]) ->
         main()
     assert e.type == SystemExit
     assert e.value.code == 0
-    raise_error_calls == 1
+    assert len(raise_error_calls) == 1
 
 
 @pytest.mark.parametrize('argv', [

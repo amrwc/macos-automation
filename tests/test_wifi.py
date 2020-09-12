@@ -23,16 +23,13 @@ MODULE_NAME: str = 'wifi'
 def should_have_raised_error_for_unknown_option(monkeypatch, argv: List[str], raised_error: bool) -> None:
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
         assert kwargs['usage'] == usage
-        raise_error_calls.append('')
         raise SystemExit(0)  # Controlled early exit
-    raise_error_calls: list = []
     monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
     monkeypatch.setattr(f"{MODULE_NAME}.raise_error", mock_raise_error)
     with pytest.raises(SystemExit) as e:
         main()
     assert e.type == SystemExit
     assert e.value.code == 0
-    raise_error_calls == 1
 
 
 @pytest.mark.parametrize('argv', [
