@@ -14,11 +14,11 @@ from bluetooth import (
 MODULE_NAME: str = 'bluetooth'
 
 
-@pytest.mark.parametrize('argv, raised_error', [
-    ([f"{MODULE_NAME}.py"], True),
-    ([f"{MODULE_NAME}.py", next_alphanumeric(10)], True),
+@pytest.mark.parametrize('argv', [
+    ([f"{MODULE_NAME}.py"]),
+    ([f"{MODULE_NAME}.py", next_alphanumeric(10)]),
 ])
-def should_have_raised_error_for_unknown_option(monkeypatch, argv: List[str], raised_error: bool) -> None:
+def should_have_raised_error_for_unknown_option(monkeypatch, argv: List[str]) -> None:
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
         assert kwargs['usage'] == usage
         raise_error_calls.append('')
