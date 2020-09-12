@@ -7,16 +7,19 @@ A utility for putting the machine to sleep from command-line.
 
 ## Setup
 
-Create a symlink to the script.
+Create a symlink to the script. Remember that there's a built-in `sleep`
+utility in the system that takes precedence. That's why it's necessary to
+choose a different name.
 
 ```console
-ln -s "$(pwd)/sleep.py" /usr/local/bin/sleep
+ln -s "$(pwd)/sleep.py" /usr/local/bin/night
 ```
 
 ## Usage
 
 ```console
-sleep
+./sleep.py
+night
 ```
 
 @author: amrwc
