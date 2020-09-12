@@ -21,7 +21,7 @@ A utility for turning Bluetooth on/off from command-line.
 
 ## Usage
 
-```
+```console
 bluetooth <on/off>
 ```
 

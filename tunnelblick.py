@@ -24,7 +24,7 @@ Supported commands:
 ## Usage
 
 ```console
-$ tunnelblick <connect/quit>
+tunnelblick <connect/quit>
 ```
 
 @author: amrwc

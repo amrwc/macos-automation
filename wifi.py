@@ -15,7 +15,7 @@ ln -s "$(pwd)/wifi.py" /usr/local/bin/wifi
 
 ## Usage
 
-```
+```console
 wifi <on/off>
 ```
 
