@@ -6,59 +6,71 @@ from testing_utils import (
     next_alphabetic,
     next_alphanumeric,
 )
-from wifi import (
-    main,
-    set_wifi,
-    usage,
-)
+from wifi import Wifi
 
 
 MODULE_NAME: str = 'wifi'
 
 
-@pytest.mark.parametrize('argv, raised_error', [
-    ([f"{MODULE_NAME}.py"], True),
-    ([f"{MODULE_NAME}.py", next_alphanumeric(10)], True),
+@pytest.mark.parametrize('argv, on', [
+    ([next_alphanumeric(10)], False),
+    (['off'], False),
+    (['on'], True),
 ])
-def should_have_raised_error_for_unknown_option(monkeypatch, argv: List[str], raised_error: bool) -> None:
+def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
+    def mock_set_wifi(*args: tuple, **kwargs: dict) -> None:
+        assert args[1] == on
+    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: argv)
+    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.set_wifi", mock_set_wifi)
+    Wifi().execute()
+
+
+@pytest.mark.parametrize('argv', [
+    ([next_alphanumeric(10)]),
+    ([]),
+])
+def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[str]) -> None:
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
-        assert kwargs['usage'] == usage
+        assert type(kwargs['usage'] == 'function')
         raise SystemExit(0)  # Controlled early exit
-    monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
     monkeypatch.setattr(f"{MODULE_NAME}.raise_error", mock_raise_error)
     with pytest.raises(SystemExit) as e:
-        main()
+        Wifi(argv)
     assert e.type == SystemExit
     assert e.value.code == 0
 
 
 @pytest.mark.parametrize('argv', [
-    ([f"{MODULE_NAME}.py", 'on']),
-    ([f"{MODULE_NAME}.py", 'off']),
+    (['on']),
+    (['off']),
 ])
-def should_have_run_uninterrupted(monkeypatch, argv: List[str]) -> None:
-    def mock_set_wifi(*args: tuple, **kwargs: dict) -> None:
-        assert args[0] == (argv[1] == 'on')
-    monkeypatch.setattr(f"{MODULE_NAME}.sys.argv", argv)
-    monkeypatch.setattr(f"{MODULE_NAME}.set_wifi", mock_set_wifi)
-    main()
-
-
-@pytest.mark.parametrize('on', [(True), (False)])
-def should_have_set_wifi(monkeypatch, on) -> None:
-    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> None:
-        if args[0] == ['networksetup', '-listallhardwareports']:
-            return f"\nHardware Port: Wi-Fi\nDevice: {device_name}\n"
-        else:
-            assert args[0] == ['networksetup', '-setairportpower', device_name, ('on' if on else 'off')]
-    device_name: str = next_alphabetic(10)
-    monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
-    mute_logs(MODULE_NAME, monkeypatch)
-    set_wifi(on)
+def should_have_parsed_argv(argv) -> None:
+    wifi: Wifi = Wifi(argv)
+    assert wifi.argv == argv
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
     print_coloured_calls: list = []
+    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: None)
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
-    usage()
+    Wifi().usage()
     assert len(print_coloured_calls) == 2
+
+
+@pytest.mark.parametrize('on', [
+    (True),
+    (False),
+])
+def should_have_set_wifi(monkeypatch, on: bool) -> None:
+    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> str:
+        if args[0] == ['networksetup', '-listallhardwareports']:
+            return f"\nHardware Port: Wi-Fi\nDevice: {device_name}\n"
+        else:
+            assert args[0] == ['networksetup', '-setairportpower', device_name, ('on' if on else 'off')]
+            return ''
+    device_name: str = next_alphabetic(10)
+    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: None)
+    monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
+    mute_logs(MODULE_NAME, monkeypatch)
+    result: str = Wifi().set_wifi(on)
+    assert result == ''

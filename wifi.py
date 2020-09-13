@@ -24,6 +24,8 @@ wifi <on/off>
 
 import sys
 from typing import List
+
+from abstract_automation import Automation
 from utils import (
     execute_cmd,
     log,
@@ -32,46 +34,47 @@ from utils import (
 )
 
 
-def main(argv: List[str] = []) -> None:
-    """
-    The application's entry point.
-    """
-    if not argv:
-        argv = sys.argv[1:]
-    if len(argv) == 0:  # Strip the script's name from argv
-        raise_error('No option provided', usage=usage)
-    if argv[0] not in ('on', 'off'):
-        raise_error(f"Unsupported option provided: {argv[0]}", usage=usage)
-    set_wifi(argv[0] == 'on')
+class Wifi(Automation):
 
+    def __init__(self, argv: List[str] = []):
+        self.argv = self.parse_argv(argv)
 
-def set_wifi(on: bool) -> None:
-    """
-    Turns Wi-Fi to the given state.
-    @param on: whether to turn Wi-Fi on
-    """
-    power: str = 'on' if on else 'off'
-    log(f"Turning Wi-Fi {power}")
-    # '\nHardware Port: Wi-Fi\nDevice: en0\n ...'
-    hardware_ports: str = execute_cmd(['networksetup', '-listallhardwareports'])
-    # ['Hardware Port: Wi-Fi', 'Device: en0']
-    hardware_ports_lines: List[str] = hardware_ports.splitlines()
-    device_name: str = ''
-    for i, line in enumerate(hardware_ports_lines):
-        if 'Wi-Fi' in line:  # 'Hardware Port: Wi-Fi'
-            device_name_line: str = hardware_ports_lines[i + 1]  # 'Device: en0'
-            device_name = device_name_line.split()[1]  # 'en0'
-            break
-    execute_cmd(['networksetup', '-setairportpower', device_name, power])
+    def execute(self) -> str:
+        return self.set_wifi(self.argv[0] == 'on')
 
+    def parse_argv(self, argv: List[str]) -> List[str]:
+        if len(argv) == 0:
+            raise_error('No option provided', usage=self.usage)
+        if argv[0] not in ('on', 'off'):
+            raise_error(f"Unsupported option provided: {argv[0]}", usage=self.usage)
+        return argv
 
-def usage() -> None:
-    """
-    Prints usage instructions.
-    """
-    print_coloured('Usage:\n', 'white', 'bold')
-    print_coloured('$ ./wifi.py <on/off>\n', 'white')
+    def usage(self) -> None:
+        print_coloured('Usage:\n', 'white', 'bold')
+        print_coloured('$ ./wifi.py <on/off>\n', 'white')
+
+    def set_wifi(self, on: bool) -> str:
+        """
+        Turns Wi-Fi to the given state.
+        @param on: whether to turn Wi-Fi on
+        @return: stdout of the command execution
+        """
+        power: str = 'on' if on else 'off'
+        log(f"Turning Wi-Fi {power}")
+        # 'Hardware Port: Wi-Fi\nDevice: en0 ...'
+        hardware_ports: str = execute_cmd(['networksetup', '-listallhardwareports']).strip()
+        # ['Hardware Port: Wi-Fi', 'Device: en0']
+        hardware_ports_lines: List[str] = hardware_ports.splitlines()
+        device_name: str = ''
+        for i, line in enumerate(hardware_ports_lines):
+            if 'Wi-Fi' in line:  # 'Hardware Port: Wi-Fi'
+                device_name_line: str = hardware_ports_lines[i + 1]  # 'Device: en0'
+                device_name = device_name_line.split()[1]  # 'en0'
+                break
+        return execute_cmd(['networksetup', '-setairportpower', device_name, power]).strip()
 
 
 if __name__ == '__main__':
-    main()
+    result: str = Wifi(sys.argv[1:]).execute()
+    if result != '':
+        raise_error(f"Something went wrong; stdout: {result}")
