@@ -6,6 +6,9 @@ from testing_utils import (
     next_alphabetic,
     next_alphanumeric,
 )
+from testing_automation_common import (
+    mock_parse_argv,
+)
 from wifi import Wifi
 
 
@@ -18,11 +21,13 @@ MODULE_NAME: str = 'wifi'
     (['on'], True),
 ])
 def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
-    def mock_set_wifi(*args: tuple, **kwargs: dict) -> None:
+    def mock_set_wifi(*args: tuple, **kwargs: dict) -> str:
         assert args[1] == on
-    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: argv)
+        return ''
+    mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch, argv)
     monkeypatch.setattr(f"{MODULE_NAME}.Wifi.set_wifi", mock_set_wifi)
-    Wifi().execute()
+    result: str = Wifi().execute()
+    assert result == ''
 
 
 @pytest.mark.parametrize('argv', [
@@ -51,7 +56,7 @@ def should_have_parsed_argv(argv) -> None:
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
     print_coloured_calls: list = []
-    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: None)
+    mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Wifi().usage()
     assert len(print_coloured_calls) == 2
@@ -69,7 +74,7 @@ def should_have_set_wifi(monkeypatch, on: bool) -> None:
             assert args[0] == ['networksetup', '-setairportpower', device_name, ('on' if on else 'off')]
             return ''
     device_name: str = next_alphabetic(10)
-    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.parse_argv", lambda *a, **k: None)
+    mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
     mute_logs(MODULE_NAME, monkeypatch)
     result: str = Wifi().set_wifi(on)
