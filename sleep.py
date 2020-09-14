@@ -25,22 +25,32 @@ night
 @author: amrwc
 """
 
+from typing import List
+
+from abstract_automation import Automation
 from utils import (
     execute_cmd,
     log,
+    print_coloured,
     raise_error,
 )
 
 
-def main() -> None:
-    """
-    The application's entry point.
-    """
-    log('Putting the machine to sleep')
-    stdout: str = execute_cmd(['pmset', 'sleepnow'])
-    if stdout != 'Sleeping now...\n':
-        raise_error(f"Something went wrong; stdout: {stdout}")
+class Sleep(Automation):
+
+    def execute(self) -> str:
+        log('Putting the machine to sleep')
+        return execute_cmd(['pmset', 'sleepnow']).strip()
+
+    def parse_argv(self, argv: List[str]) -> List[str]:
+        return []
+
+    def usage(self) -> None:
+        print_coloured('Usage:\n', 'white', 'bold')
+        print_coloured('$ ./sleep.py\n', 'white')
 
 
 if __name__ == '__main__':
-    main()
+    result: str = Sleep().execute()
+    if result != 'Sleeping now...':
+        raise_error(f"Something went wrong; stdout: {result}")
