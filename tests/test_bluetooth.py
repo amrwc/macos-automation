@@ -20,12 +20,13 @@ MODULE_NAME: str = 'bluetooth'
     (['on'], True),
 ])
 def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
-    def mock_set_bluetooth(*args: tuple, **kwargs: dict) -> str:
-        assert args[1] == on
-        return ''
+    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> str:
+        assert args[0] == ['blueutil', '-p', ('1' if on else '0')]
+        return '\n'
     mock_parse_argv(MODULE_NAME, 'Bluetooth', monkeypatch, argv)
-    monkeypatch.setattr(f"{MODULE_NAME}.Bluetooth.set_bluetooth", mock_set_bluetooth)
-    result: str = Bluetooth(argv).execute()
+    monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
+    mute_logs(MODULE_NAME, monkeypatch)
+    result: str = Bluetooth().execute()
     assert result == ''
 
 
@@ -59,18 +60,3 @@ def should_have_printed_usage_instructions(monkeypatch) -> None:
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Bluetooth().usage()
     assert len(print_coloured_calls) == 2
-
-
-@pytest.mark.parametrize('on', [
-    (True),
-    (False),
-])
-def should_have_set_bluetooth(monkeypatch, on: bool) -> None:
-    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> str:
-        assert args[0] == ['blueutil', '-p', ('1' if on else '0')]
-        return ''
-    mock_parse_argv(MODULE_NAME, 'Bluetooth', monkeypatch)
-    monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
-    mute_logs(MODULE_NAME, monkeypatch)
-    result: str = Bluetooth().set_bluetooth(on)
-    assert result == ''

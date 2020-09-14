@@ -46,7 +46,9 @@ class Bluetooth(Automation):
         self.argv = self.parse_argv(argv)
 
     def execute(self) -> str:
-        return self.set_bluetooth(self.argv[0] == 'on')
+        log(f"Turning Bluetooth {self.argv[0]}")
+        on: bool = self.argv[0] == 'on'
+        return execute_cmd(['blueutil', '-p', ('1' if on else '0')]).strip()
 
     def parse_argv(self, argv: List[str]) -> List[str]:
         if len(argv) == 0:
@@ -58,15 +60,6 @@ class Bluetooth(Automation):
     def usage(self) -> None:
         print_coloured('Usage:\n', 'white', 'bold')
         print_coloured('$ ./bluetooth.py <on/off>\n', 'white')
-
-    def set_bluetooth(self, on: bool) -> None:
-        """
-        Runs a `blueutil` command and turns Bluetooth to the given state.
-        @param on: whether to turn Bluetooth on
-        """
-        power: str = '1' if on else '0'
-        log(f"Turning Bluetooth {'on' if on else 'off'}")
-        return execute_cmd(['blueutil', '-p', power]).strip()
 
 
 if __name__ == '__main__':
