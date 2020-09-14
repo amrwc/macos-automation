@@ -36,7 +36,7 @@ def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
 ])
 def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[str]) -> None:
     def mock_raise_error(*args: tuple, **kwargs: dict) -> None:
-        assert type(kwargs['usage'] == 'function')
+        assert kwargs['usage'] is not None
         raise SystemExit(0)  # Controlled early exit
     monkeypatch.setattr(f"{MODULE_NAME}.raise_error", mock_raise_error)
     with pytest.raises(SystemExit) as e:
