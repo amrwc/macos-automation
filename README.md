@@ -9,11 +9,11 @@ A utility to turn Wi-Fi on or off.
 
 ### Setup
 
-1. Create a symlink.
+Create a symlink.
 
-   ```console
-   ln -s "$(pwd)/wifi.py" /usr/local/bin/wifi
-   ```
+```console
+ln -s "$(pwd)/wifi.py" /usr/local/bin/wifi
+```
 
 ### Usage
 
@@ -28,7 +28,15 @@ A utility to turn Bluetooth on or off.
 
 ### Setup
 
-1. Create a symlink.
+1. Install `blueutil`.
+
+   ```console
+   brew install blueutil
+   ```
+
+1. Create a symlink. Remember that there's a built-in `sleep` utility in the
+   system that takes precedence. That's why it's necessary to choose a
+   different name.
 
    ```console
    ln -s "$(pwd)/bluetooth.py" /usr/local/bin/bluetooth
@@ -39,6 +47,25 @@ A utility to turn Bluetooth on or off.
 ```console
 ./bluetooth.py <on/off>
 bluetooth <on/off>
+```
+
+## Sleep
+
+A utility for putting the machine to sleep from command-line.
+
+### Setup
+
+Create a symlink.
+
+```console
+ln -s "$(pwd)/sleep.py" /usr/local/bin/night
+```
+
+### Usage
+
+```console
+./sleep.py
+night
 ```
 
 ## Tunnelblick
@@ -54,9 +81,9 @@ Supported commands:
 ### Setup
 
 1. Rename `tunnelblick.config.example.json` to `tunnelblick.config.json`.
-2. Set `configuration-name` field to the VPN configuration name already
+1. Set `configuration-name` field to the VPN configuration name already
    imported to Tunnelblick.
-3. Create a symlink.
+1. Create a symlink.
 
    ```console
    ln -s "$(pwd)/tunnelblick.py" /usr/local/bin/tunnelblick
