@@ -88,6 +88,26 @@ ln -s "$(pwd)/goodnight.py" /usr/local/bin/goodnight
 goodnight
 ```
 
+## Hello
+
+A utility for performing some of the common turning on operations from
+command-line in combination.
+
+### Setup
+
+Create a symlink to the script.
+
+```console
+ln -s "$(pwd)/hello.py" /usr/local/bin/hello
+```
+
+### Usage
+
+```console
+./hello.py
+hello
+```
+
 ## Tunnelblick
 
 A utility for sending simple instructions to Tunnelblick from command line.
