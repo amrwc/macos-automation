@@ -68,6 +68,26 @@ ln -s "$(pwd)/sleep.py" /usr/local/bin/night
 night
 ```
 
+## Good Night
+
+A utility for performing some of the common shutting down operations from
+command-line in combination.
+
+### Setup
+
+Create a symlink to the script.
+
+```console
+ln -s "$(pwd)/goodnight.py" /usr/local/bin/goodnight
+```
+
+### Usage
+
+```console
+./goodnight.py
+goodnight
+```
+
 ## Tunnelblick
 
 A utility for sending simple instructions to Tunnelblick from command line.
