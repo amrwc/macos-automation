@@ -16,16 +16,19 @@ MODULE_NAME: str = 'brightness'
 
 
 def should_have_executed(monkeypatch) -> None:
-    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> None:
+    def mock_execute_cmd(*args: tuple, **kwargs: dict) -> str:
         assert args[0] == ['brightness', brightness_level]
+        return expected_result
+
     mock_parse_argv(MODULE_NAME, 'Brightness', monkeypatch)
     mute_logs(MODULE_NAME, monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
 
     brightness_level: str = str(random.random())
+    expected_result: str = next_alphanumeric(10)
     automation: Brightness = Brightness()
     automation.brightness = brightness_level
-    automation.execute()
+    assert automation.execute() == expected_result
 
 
 @pytest.mark.parametrize('argv', [
