@@ -30,6 +30,7 @@ from typing import List
 from abstract_automation import Automation
 from bluetooth import Bluetooth
 from sleep import Sleep
+from volume import Volume
 from wifi import Wifi
 from utils import (
     log,
@@ -42,9 +43,10 @@ class Goodnight(Automation):
     def execute(self) -> str:
         log('Good night!')
         automations: List[Automation] = [
+            Volume(['0.0']),
             Bluetooth(['off']),
-            Sleep(),
             Wifi(['off']),
+            Sleep(),
         ]
         for automation in automations:
             automation.execute()

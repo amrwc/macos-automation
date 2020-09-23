@@ -8,20 +8,25 @@ MODULE_NAME: str = 'goodnight'
 
 
 def should_have_executed(monkeypatch) -> None:
-    def mock_init(*args: tuple, **kwargs: dict) -> None:
+    def mock_init_common(*args: tuple, **kwargs: dict) -> None:
         assert args[1] == ['off']
 
+    def mock_init_volume(*args: tuple, **kwargs: dict) -> None:
+        assert args[1] == ['0.0']
+
     execute_calls: list = []
-    monkeypatch.setattr(f"{MODULE_NAME}.Bluetooth.__init__", mock_init)
+    monkeypatch.setattr(f"{MODULE_NAME}.Volume.__init__", mock_init_volume)
+    monkeypatch.setattr(f"{MODULE_NAME}.Volume.execute", lambda *a, **k: execute_calls.append(''))
+    monkeypatch.setattr(f"{MODULE_NAME}.Bluetooth.__init__", mock_init_common)
     monkeypatch.setattr(f"{MODULE_NAME}.Bluetooth.execute", lambda *a, **k: execute_calls.append(''))
-    monkeypatch.setattr(f"{MODULE_NAME}.Sleep.execute", lambda *a, **k: execute_calls.append(''))
-    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.__init__", mock_init)
+    monkeypatch.setattr(f"{MODULE_NAME}.Wifi.__init__", mock_init_common)
     monkeypatch.setattr(f"{MODULE_NAME}.Wifi.execute", lambda *a, **k: execute_calls.append(''))
+    monkeypatch.setattr(f"{MODULE_NAME}.Sleep.execute", lambda *a, **k: execute_calls.append(''))
     mute_logs(MODULE_NAME, monkeypatch)
 
     result: str = Goodnight().execute()
     assert result == ''
-    assert len(execute_calls) == 3
+    assert len(execute_calls) == 4
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
