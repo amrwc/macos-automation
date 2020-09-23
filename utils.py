@@ -4,7 +4,6 @@ Common utitilies.
 
 import datetime
 import subprocess
-import sys
 from sys import exit, stdout
 from typing import Callable, Dict, List
 
@@ -59,7 +58,7 @@ def print_coloured(text: str, colour: str, effect: str = '') -> None:
     @param colour: display colour
     @param effect: (optional) effect to use, such as 'bold' or 'underline'
     """
-    text_effect = get_text_effect(effect)
+    text_effect: str = get_text_effect(effect)
     stdout.write(f"{text_effect}{get_colour(colour)}{text}{get_text_effect('reset')}")
 
 
@@ -70,7 +69,7 @@ def get_colour(colour: str) -> str:
     @return: escape sequence for the given colour
     """
     sequence_base: str = '\033['
-    colours = {
+    colours: Dict[str, str] = {
         'red': '31m',
         'yellow': '33m',
         'green': '32m',
@@ -112,4 +111,4 @@ def execute_cmd(cmd: List[str]) -> str:
         print_coloured('KeyboardInterrupt: ', 'yellow', 'bold')
         print_coloured('User halted the execution of the following command:\n', 'yellow')
         print_cmd(cmd)
-        sys.exit(1)
+        exit(1)
