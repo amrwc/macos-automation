@@ -46,16 +46,17 @@ def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[
     assert e.value.code == 0
 
 
-@pytest.mark.parametrize('argv', [
-    (['-5.7']),
-    (['0.0']),
-    (['0.5']),
-    (['1.0']),
-    (['3.2']),
+@pytest.mark.parametrize('argv, expected_brightness_level', [
+    (['-5.7'], 0.0),
+    (['0.0'], 0.0),
+    (['0.5'], 0.5),
+    (['1.0'], 1.0),
+    (['3.2'], 1.0),
 ])
-def should_have_parsed_argv(argv) -> None:
+def should_have_parsed_argv(argv, expected_brightness_level) -> None:
     brightness: Brightness = Brightness(argv)
     assert brightness.argv == argv
+    assert brightness.brightness == expected_brightness_level
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
