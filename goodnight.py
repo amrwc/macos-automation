@@ -18,7 +18,6 @@ ln -s "$(pwd)/goodnight.py" /usr/local/bin/goodnight
 ## Usage
 
 ```console
-./goodnight.py
 goodnight
 ```
 
@@ -42,7 +41,7 @@ class Goodnight(Automation):
 
     def execute(self) -> str:
         log('Good night!')
-        automations: List[Automation] = [
+        automations = [
             Volume(['0.0']),
             Bluetooth(['off']),
             Wifi(['off']),

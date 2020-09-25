@@ -1,7 +1,7 @@
 from typing import List
 
 
-def mock_parse_argv(module_name, class_name, monkeypatch, argv: List[str] = None) -> None:
+def mock_parse_argv(module_name: str, class_name: str, monkeypatch, argv: List[str] = None) -> None:
     """
     Mocks the call to `parse_argv` method in the `Automation` class implementations.
     @param module_name: name of the module being tested

@@ -2,17 +2,11 @@ import pytest
 import random
 from typing import List
 
-from testing_utils import (
-    mute_logs,
-    next_alphanumeric,
-)
-from testing_automation_common import (
-    mock_parse_argv,
-)
+from testing_utils import mute_logs, next_alphanumeric
+from testing_automation_common import mock_parse_argv
 from brightness import Brightness
 
-
-MODULE_NAME: str = 'brightness'
+MODULE_NAME = 'brightness'
 
 
 def should_have_executed(monkeypatch) -> None:
@@ -24,9 +18,9 @@ def should_have_executed(monkeypatch) -> None:
     mute_logs(MODULE_NAME, monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
 
-    brightness_level: str = str(random.random())
-    expected_result: str = next_alphanumeric(10)
-    automation: Brightness = Brightness()
+    brightness_level = str(random.random())
+    expected_result = next_alphanumeric(10)
+    automation = Brightness()
     automation.brightness = brightness_level
     assert automation.execute() == expected_result
 
@@ -53,14 +47,14 @@ def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[
     (['1.0'], 1.0),
     (['3.2'], 1.0),
 ])
-def should_have_parsed_argv(argv, expected_brightness_level) -> None:
-    brightness: Brightness = Brightness(argv)
+def should_have_parsed_argv(argv: List[str], expected_brightness_level: float) -> None:
+    brightness = Brightness(argv)
     assert brightness.argv == argv
     assert brightness.brightness == expected_brightness_level
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
-    print_coloured_calls: list = []
+    print_coloured_calls = []
     mock_parse_argv(MODULE_NAME, 'Brightness', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Brightness().usage()

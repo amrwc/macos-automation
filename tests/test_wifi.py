@@ -1,18 +1,11 @@
 import pytest
 from typing import List
 
-from testing_utils import (
-    mute_logs,
-    next_alphabetic,
-    next_alphanumeric,
-)
-from testing_automation_common import (
-    mock_parse_argv,
-)
+from testing_utils import mute_logs, next_alphabetic, next_alphanumeric
+from testing_automation_common import mock_parse_argv
 from wifi import Wifi
 
-
-MODULE_NAME: str = 'wifi'
+MODULE_NAME = 'wifi'
 
 
 @pytest.mark.parametrize('argv, on', [
@@ -26,8 +19,7 @@ def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
         return ''
     mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch, argv)
     monkeypatch.setattr(f"{MODULE_NAME}.Wifi.set_wifi", mock_set_wifi)
-    result: str = Wifi().execute()
-    assert result == ''
+    assert Wifi().execute() == ''
 
 
 @pytest.mark.parametrize('argv', [
@@ -49,13 +41,12 @@ def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[
     (['on']),
     (['off']),
 ])
-def should_have_parsed_argv(argv) -> None:
-    wifi: Wifi = Wifi(argv)
-    assert wifi.argv == argv
+def should_have_parsed_argv(argv: List[str]) -> None:
+    assert Wifi(argv).argv == argv
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
-    print_coloured_calls: list = []
+    print_coloured_calls = []
     mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Wifi().usage()
@@ -73,9 +64,8 @@ def should_have_set_wifi(monkeypatch, on: bool) -> None:
         else:
             assert args[0] == ['networksetup', '-setairportpower', device_name, ('on' if on else 'off')]
             return ''
-    device_name: str = next_alphabetic(10)
+    device_name = next_alphabetic(10)
     mock_parse_argv(MODULE_NAME, 'Wifi', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
     mute_logs(MODULE_NAME, monkeypatch)
-    result: str = Wifi().set_wifi(on)
-    assert result == ''
+    assert Wifi().set_wifi(on) == ''

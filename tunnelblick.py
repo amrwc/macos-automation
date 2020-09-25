@@ -44,9 +44,9 @@ from utils import (
 )
 
 
-CONFIG_FILE_NAME: str = 'tunnelblick.config.json'
-SCRIPT_PARENT_DIR_PATH: str = os.path.dirname(os.path.realpath(sys.argv[0]))
-CONFIG_FILE_PATH: str = f"{SCRIPT_PARENT_DIR_PATH}/{CONFIG_FILE_NAME}"
+CONFIG_FILE_NAME = 'tunnelblick.config.json'
+SCRIPT_PARENT_DIR_PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
+CONFIG_FILE_PATH = f"{SCRIPT_PARENT_DIR_PATH}/{CONFIG_FILE_NAME}"
 
 
 class Tunnelblick(Automation):
@@ -55,13 +55,13 @@ class Tunnelblick(Automation):
         self.argv = self.parse_argv(argv)
 
     def execute(self) -> str:
-        config: Dict[str, str] = self.get_config(CONFIG_FILE_PATH)
-        instructions: Dict[str, str] = {
+        config = self.get_config(CONFIG_FILE_PATH)
+        instructions = {
             'connect': f"connect \"{config['configuration-name']}\"",
             'quit': 'quit',
         }
-        instruction: str = instructions[self.argv[0]]
-        apple_script: str = self.build_apple_script(instruction)
+        instruction = instructions[self.argv[0]]
+        apple_script = self.build_apple_script(instruction)
         log(f"Instructing Tunnelblick to {instruction}")
         return execute_cmd(['osascript', '-e', apple_script]).strip()
 
@@ -97,6 +97,6 @@ class Tunnelblick(Automation):
 
 
 if __name__ == '__main__':
-    result: str = Tunnelblick(sys.argv[1:]).execute()
+    result = Tunnelblick(sys.argv[1:]).execute()
     if result not in ('true', '0'):
         raise_error(f"Something went wrong; stdout: {result}")

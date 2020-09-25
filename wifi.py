@@ -59,22 +59,22 @@ class Wifi(Automation):
         @param on: whether to turn Wi-Fi on
         @return: stdout of the command execution
         """
-        power: str = 'on' if on else 'off'
+        power = 'on' if on else 'off'
         log(f"Turning Wi-Fi {power}")
         # 'Hardware Port: Wi-Fi\nDevice: en0 ...'
-        hardware_ports: str = execute_cmd(['networksetup', '-listallhardwareports']).strip()
+        hardware_ports = execute_cmd(['networksetup', '-listallhardwareports']).strip()
         # ['Hardware Port: Wi-Fi', 'Device: en0']
-        hardware_ports_lines: List[str] = hardware_ports.splitlines()
-        device_name: str = ''
+        hardware_ports_lines = hardware_ports.splitlines()
+        device_name = ''
         for i, line in enumerate(hardware_ports_lines):
             if 'Wi-Fi' in line:  # 'Hardware Port: Wi-Fi'
-                device_name_line: str = hardware_ports_lines[i + 1]  # 'Device: en0'
+                device_name_line = hardware_ports_lines[i + 1]  # 'Device: en0'
                 device_name = device_name_line.split()[1]  # 'en0'
                 break
         return execute_cmd(['networksetup', '-setairportpower', device_name, power]).strip()
 
 
 if __name__ == '__main__':
-    result: str = Wifi(sys.argv[1:]).execute()
+    result = Wifi(sys.argv[1:]).execute()
     if result != '':
         raise_error(f"Something went wrong; stdout: {result}")

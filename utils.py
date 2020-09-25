@@ -5,7 +5,7 @@ Common utitilies.
 import datetime
 import subprocess
 from sys import exit, stdout
-from typing import Callable, Dict, List
+from typing import Callable, List
 
 
 def raise_error(message: str, cmd: List[str] = [], usage: Callable[[], None] = None) -> None:
@@ -58,7 +58,7 @@ def print_coloured(text: str, colour: str, effect: str = '') -> None:
     @param colour: display colour
     @param effect: (optional) effect to use, such as 'bold' or 'underline'
     """
-    text_effect: str = get_text_effect(effect)
+    text_effect = get_text_effect(effect)
     stdout.write(f"{text_effect}{get_colour(colour)}{text}{get_text_effect('reset')}")
 
 
@@ -68,8 +68,8 @@ def get_colour(colour: str) -> str:
     @param colour: name of the colour
     @return: escape sequence for the given colour
     """
-    sequence_base: str = '\033['
-    colours: Dict[str, str] = {
+    sequence_base = '\033['
+    colours = {
         'red': '31m',
         'yellow': '33m',
         'green': '32m',
@@ -86,8 +86,8 @@ def get_text_effect(effect: str) -> str:
     @param effect: name of the effect
     @return: escape sequence for the given effect
     """
-    sequence_base: str = '\033['
-    effects: Dict[str, str] = {
+    sequence_base = '\033['
+    effects = {
         '': '',
         'reset': '0m',
         'bold': '1m',

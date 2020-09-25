@@ -18,7 +18,6 @@ ln -s "$(pwd)/hello.py" /usr/local/bin/hello
 ## Usage
 
 ```console
-./hello.py
 hello
 ```
 
@@ -41,7 +40,7 @@ class Hello(Automation):
 
     def execute(self) -> str:
         log('Hello!')
-        automations: List[Automation] = [
+        automations = [
             Bluetooth(['on']),
             Wifi(['on']),
         ]

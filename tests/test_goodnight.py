@@ -1,10 +1,7 @@
-from testing_utils import (
-    mute_logs,
-)
-
+from testing_utils import mute_logs
 from goodnight import Goodnight
 
-MODULE_NAME: str = 'goodnight'
+MODULE_NAME = 'goodnight'
 
 
 def should_have_executed(monkeypatch) -> None:
@@ -14,7 +11,7 @@ def should_have_executed(monkeypatch) -> None:
     def mock_init_volume(*args: tuple, **kwargs: dict) -> None:
         assert args[1] == ['0.0']
 
-    execute_calls: list = []
+    execute_calls = []
     monkeypatch.setattr(f"{MODULE_NAME}.Volume.__init__", mock_init_volume)
     monkeypatch.setattr(f"{MODULE_NAME}.Volume.execute", lambda *a, **k: execute_calls.append(''))
     monkeypatch.setattr(f"{MODULE_NAME}.Bluetooth.__init__", mock_init_common)
@@ -24,13 +21,12 @@ def should_have_executed(monkeypatch) -> None:
     monkeypatch.setattr(f"{MODULE_NAME}.Sleep.execute", lambda *a, **k: execute_calls.append(''))
     mute_logs(MODULE_NAME, monkeypatch)
 
-    result: str = Goodnight().execute()
-    assert result == ''
+    assert Goodnight().execute() == ''
     assert len(execute_calls) == 4
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
-    print_coloured_calls: list = []
+    print_coloured_calls = []
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Goodnight().usage()
     assert len(print_coloured_calls) == 2

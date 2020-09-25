@@ -1,10 +1,7 @@
-from testing_utils import (
-    mute_logs,
-)
-
+from testing_utils import mute_logs
 from sleep import Sleep
 
-MODULE_NAME: str = 'sleep'
+MODULE_NAME = 'sleep'
 
 
 def should_have_executed(monkeypatch) -> None:
@@ -13,12 +10,11 @@ def should_have_executed(monkeypatch) -> None:
         return 'Sleeping now...\n'
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
     mute_logs(MODULE_NAME, monkeypatch)
-    result: str = Sleep().execute()
-    assert result == 'Sleeping now...'
+    assert Sleep().execute() == 'Sleeping now...'
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
-    print_coloured_calls: list = []
+    print_coloured_calls = []
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Sleep().usage()
     assert len(print_coloured_calls) == 2

@@ -33,7 +33,6 @@ A utility for changing the screen brightness from command-line.
 Use a decimal between 0 and 1 to represent the brightness percentage.
 
 ```console
-./brightness.py <decimal>
 bright <decimal>
 ```
 
@@ -64,7 +63,7 @@ class Brightness(Automation):
     def parse_argv(self, argv: List[str]) -> List[str]:
         if len(argv) == 0:
             raise_error('No option provided', usage=self.usage)
-        brightness: float = 0.5
+        brightness = 0.5
         try:
             brightness = float(argv[0])
         except ValueError:

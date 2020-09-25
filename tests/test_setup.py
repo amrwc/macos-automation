@@ -1,7 +1,5 @@
 from testing_utils import mute_logs
-
 import setup
-
 
 MODULE_NAME = 'setup'
 

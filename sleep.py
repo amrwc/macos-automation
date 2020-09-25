@@ -18,7 +18,6 @@ ln -s "$(pwd)/sleep.py" /usr/local/bin/night
 ## Usage
 
 ```console
-./sleep.py
 night
 ```
 
@@ -51,6 +50,6 @@ class Sleep(Automation):
 
 
 if __name__ == '__main__':
-    result: str = Sleep().execute()
+    result = Sleep().execute()
     if result != 'Sleeping now...':
         raise_error(f"Something went wrong; stdout: {result}")

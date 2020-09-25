@@ -47,7 +47,7 @@ class Bluetooth(Automation):
 
     def execute(self) -> str:
         log(f"Turning Bluetooth {self.argv[0]}")
-        on: bool = self.argv[0] == 'on'
+        on = self.argv[0] == 'on'
         return execute_cmd(['blueutil', '-p', ('1' if on else '0')]).strip()
 
     def parse_argv(self, argv: List[str]) -> List[str]:
@@ -63,6 +63,6 @@ class Bluetooth(Automation):
 
 
 if __name__ == '__main__':
-    result: str = Bluetooth(sys.argv[1:]).execute()
+    result = Bluetooth(sys.argv[1:]).execute()
     if result != '':
         raise_error(f"Something went wrong; stdout: {result}")

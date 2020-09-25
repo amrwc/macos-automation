@@ -1,17 +1,11 @@
 import pytest
 from typing import List
 
-from testing_utils import (
-    mute_logs,
-    next_alphanumeric,
-)
-from testing_automation_common import (
-    mock_parse_argv,
-)
+from testing_utils import mute_logs, next_alphanumeric
+from testing_automation_common import mock_parse_argv
 from bluetooth import Bluetooth
 
-
-MODULE_NAME: str = 'bluetooth'
+MODULE_NAME = 'bluetooth'
 
 
 @pytest.mark.parametrize('argv, on', [
@@ -26,8 +20,7 @@ def should_have_executed(monkeypatch, argv: List[str], on: bool) -> None:
     mock_parse_argv(MODULE_NAME, 'Bluetooth', monkeypatch, argv)
     monkeypatch.setattr(f"{MODULE_NAME}.execute_cmd", mock_execute_cmd)
     mute_logs(MODULE_NAME, monkeypatch)
-    result: str = Bluetooth().execute()
-    assert result == ''
+    assert Bluetooth().execute() == ''
 
 
 @pytest.mark.parametrize('argv', [
@@ -49,13 +42,12 @@ def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[
     (['on']),
     (['off']),
 ])
-def should_have_parsed_argv(argv) -> None:
-    bluetooth: Bluetooth = Bluetooth(argv)
-    assert bluetooth.argv == argv
+def should_have_parsed_argv(argv: List[str]) -> None:
+    assert Bluetooth(argv).argv == argv
 
 
 def should_have_printed_usage_instructions(monkeypatch) -> None:
-    print_coloured_calls: list = []
+    print_coloured_calls = []
     mock_parse_argv(MODULE_NAME, 'Bluetooth', monkeypatch)
     monkeypatch.setattr(f"{MODULE_NAME}.print_coloured", lambda *a, **k: print_coloured_calls.append(''))
     Bluetooth().usage()

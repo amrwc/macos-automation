@@ -19,7 +19,6 @@ Use a number between 0 and 7 to represent the volume level. The level is of a `f
 decimal place.
 
 ```console
-./volume.py <number>
 volume <number>
 ```
 
@@ -45,13 +44,13 @@ class Volume(Automation):
 
     def execute(self) -> str:
         log(f"Changing volume to {self.volume}")
-        apple_script: str = self.build_apple_script(self.volume)
+        apple_script = self.build_apple_script(self.volume)
         return execute_cmd(['osascript', '-e', apple_script]).strip()
 
     def parse_argv(self, argv: List[str]) -> List[str]:
         if len(argv) == 0:
             raise_error('No option provided', usage=self.usage)
-        volume: float = 1.0
+        volume = 1.0
         try:
             volume = float(argv[0])
         except ValueError:
