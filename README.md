@@ -14,3 +14,28 @@ To create symlinks to all the scripts, run `setup.py`.
 ```console
 ./setup.py
 ```
+
+## Testing
+
+### Unit tests
+
+```console
+pip3 install pytest
+pytest
+
+# If you encounter errors, try the following:
+python3 -m pytest
+
+# Detailed output:
+python3 -m pytest -vv
+
+# Include stdout:
+python3 -m pytest -vv -s
+```
+
+### Linting
+
+```console
+pip3 install flake8
+flake8
+```
