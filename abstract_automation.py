@@ -16,7 +16,8 @@ class Automation(ABC):
     def parse_argv(self, argv: List[str]) -> List[str]:
         """
         Parses and verifies the command-line arguments and returns them with the script name removed.
-        @return: command-line arguments
+        @param argv: command-line arguments
+        @return: parsed arguments
         """
         pass
 
