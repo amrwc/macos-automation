@@ -19,4 +19,4 @@ def should_have_set_up_symlinks(monkeypatch) -> None:
     symlink_calls = []
     monkeypatch.setattr(f"{MODULE_NAME}.os.symlink", lambda *a, **k: symlink_calls.append(''))
     setup.main()
-    assert len(symlink_calls) == 8
+    assert len(symlink_calls) == 9
