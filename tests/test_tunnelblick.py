@@ -48,7 +48,7 @@ def should_not_have_parsed_argv_with_wrong_or_no_option(monkeypatch, argv: List[
     (['connect']),
     (['quit']),
 ])
-def should_have_parsed_argv(monkeypatch, argv: List[str]) -> None:
+def should_have_parsed_argv(argv: List[str]) -> None:
     assert Tunnelblick(argv).argv == argv
 
 
