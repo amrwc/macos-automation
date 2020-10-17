@@ -24,6 +24,7 @@ class Automation():
 
 
 AUTOMATIONS = [
+    Automation('appearance', 'appearance'),
     Automation('bluetooth', 'bluetooth'),
     Automation('brightness', 'bright'),
     Automation('goodnight', 'goodnight'),
