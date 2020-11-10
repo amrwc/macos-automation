@@ -17,10 +17,17 @@ To create symlinks to all the scripts, run `setup.py`.
 
 ## Testing
 
+It's best to set up a virtual environment first
+
+```console
+python3 -m venv venv
+source ./venv/bin/activate
+pip install
+```
+
 ### Unit tests
 
 ```console
-pip3 install pytest
 pytest
 
 # If you encounter errors, try the following:
@@ -36,6 +43,5 @@ python3 -m pytest -vv -s
 ### Linting
 
 ```console
-pip3 install flake8
 flake8
 ```
