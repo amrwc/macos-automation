@@ -54,10 +54,13 @@ class Wifi(Automation):
         print_coloured('$ ./wifi.py <on/off>\n', 'white')
 
     def set_wifi(self, on: bool) -> str:
-        """
-        Turns Wi-Fi to the given state.
-        @param on: whether to turn Wi-Fi on
-        @return: stdout of the command execution
+        """Turns Wi-Fi to the given state.
+
+        Args:
+            on (bool): Whether to turn Wi-Fi on.
+
+        Returns:
+            Stdout of the command execution.
         """
         power = 'on' if on else 'off'
         log(f"Turning Wi-Fi {power}")

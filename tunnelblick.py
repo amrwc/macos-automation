@@ -43,7 +43,6 @@ from utils import (
     raise_error,
 )
 
-
 CONFIG_FILE_NAME = 'tunnelblick.config.json'
 SCRIPT_PARENT_DIR_PATH = os.path.dirname(os.path.realpath(sys.argv[0]))
 CONFIG_FILE_PATH = f"{SCRIPT_PARENT_DIR_PATH}/{CONFIG_FILE_NAME}"
@@ -77,10 +76,15 @@ class Tunnelblick(Automation):
         print_coloured('$ ./tunnelblick.py <connect/quit>\n', 'white')
 
     def get_config(self, config_path: str) -> Dict[str, str]:
-        """
-        Returns the config file contents as a dictionary or raises an error if the file doesn't exist.
-        @param config_path: path to the config file
-        @return: config file contents
+        """Fetches config file contents.
+
+        Returns config file contents as a dictionary or raises an error if the file doesn't exist.
+
+        Args:
+            config_path: Path to the config file.
+
+        Returns:
+            Config file contents in a dictionary.
         """
         if not os.path.isfile(config_path):
             raise_error(f"The config file doesn't exist in '{config_path}'")
@@ -88,10 +92,13 @@ class Tunnelblick(Automation):
             return json.load(config_file)
 
     def build_apple_script(self, instruction: str) -> str:
-        """
-        Returns a ready-made AppleScript snippet that passes commands into Tunnelblick.
-        @param instruction: command for Tunnelblick
-        @return: AppleScript (osascript) snippet
+        """Builds an AppleScript snippet that passes commands into Tunnelblick.
+
+        Args:
+            instruction: Command for Tunnelblick.
+
+        Returns:
+            An AppleScript (osascript) snippet.
         """
         return '\n'.join(('tell application "/Applications/Tunnelblick.app"', instruction, 'end tell'))
 

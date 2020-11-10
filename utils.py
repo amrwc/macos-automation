@@ -1,5 +1,5 @@
 """
-Common utitilies.
+Common utilities.
 """
 
 import datetime
@@ -8,11 +8,13 @@ from sys import exit, stdout
 from typing import Callable, List
 
 
-def raise_error(message: str, cmd: List[str] = [], usage: Callable[[], None] = None) -> None:
-    """
-    Prints the given error message and exits with a non-zero code.
-    @param message: error message
-    @param cmd: optional command to be displayed as a reference
+def raise_error(message: str, cmd: List[str] = None, usage: Callable[[], None] = None) -> None:
+    """Prints the given error message and exits with a non-zero code.
+
+    Args:
+        message (str): Error message to display.
+        cmd (list): Optional; The command that caused the error. If defined, it's displayed for reference.
+        usage: Optional; Closure that displays usage instructions upon calling.
     """
     print_coloured(f"[{get_time()}] ", 'white')
     print_coloured('ERROR: ', 'red', 'bold')
@@ -28,45 +30,52 @@ def raise_error(message: str, cmd: List[str] = [], usage: Callable[[], None] = N
 
 
 def log(message: str) -> None:
-    """
-    Logs the given message to the command line.
-    @param message: log message to be displayed
+    """Logs the given message to the command line.
+
+    Args:
+        message (str): Log message to be displayed.
     """
     print_coloured(f"[{get_time()}] {message}\n", 'white')
 
 
 def print_cmd(cmd: List[str]) -> None:
-    """
-    Prints the given command to the command line.
-    @param cmd: command-line directive in a form of a list
+    """Prints the given command to the command line.
+
+    Args:
+        cmd (list): Command-line directive in a form of a list.
     """
     print_coloured(f"{' '.join(cmd)}\n", 'grey')
 
 
 def get_time() -> str:
-    """
-    Returns current time.
-    @return: time in HH:MM:SS format
+    """Returns current time.
+
+    Returns:
+        Time in HH:MM:SS format.
     """
     return datetime.datetime.now().strftime('%H:%M:%S')
 
 
 def print_coloured(text: str, colour: str, effect: str = '') -> None:
-    """
-    Prints the given text in the given colour and effect.
-    @param text: message to print out
-    @param colour: display colour
-    @param effect: (optional) effect to use, such as 'bold' or 'underline'
+    """Prints the given text in the given colour and effect.
+
+    Args:
+        text (str): Message to print out.
+        colour (str): Display colour.
+        effect (str): Optional; Effect to use, such as 'bold' or 'underline'.
     """
     text_effect = get_text_effect(effect)
     stdout.write(f"{text_effect}{get_colour(colour)}{text}{get_text_effect('reset')}")
 
 
 def get_colour(colour: str) -> str:
-    """
-    Returns an ANSI escape sequence for the given colour.
-    @param colour: name of the colour
-    @return: escape sequence for the given colour
+    """Returns an ANSI escape sequence for the given colour.
+
+    Args:
+        colour (str): Name of the colour.
+
+    Returns:
+        Escape sequence for the given colour.
     """
     sequence_base = '\033['
     colours = {
@@ -81,10 +90,13 @@ def get_colour(colour: str) -> str:
 
 
 def get_text_effect(effect: str) -> str:
-    """
-    Returns an ASCII escape sequence for a text effect, such as 'bold'.
-    @param effect: name of the effect
-    @return: escape sequence for the given effect
+    """Returns an ASCII escape sequence for a text effect, such as 'bold'.
+
+    Args:
+        effect (str): Name of the effect.
+
+    Returns:
+        Escape sequence for the given effect.
     """
     sequence_base = '\033['
     effects = {
@@ -97,10 +109,13 @@ def get_text_effect(effect: str) -> str:
 
 
 def execute_cmd(cmd: List[str]) -> str:
-    """
-    Executes the given shell command.
-    @param cmd: shell directive to execute
-    @return: UTF-8-decoded standard output (stdout) of the command
+    """Executes the given shell command.
+
+    Args:
+        cmd (list): Shell directive to execute.
+
+    Returns:
+        UTF-8-decoded standard output (stdout) of the command.
     """
     try:
         return subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf8')

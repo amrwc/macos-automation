@@ -29,11 +29,11 @@ from typing import List
 
 from abstract_automation import Automation
 from bluetooth import Bluetooth
-from wifi import Wifi
 from utils import (
     log,
     print_coloured,
 )
+from wifi import Wifi
 
 
 class Hello(Automation):

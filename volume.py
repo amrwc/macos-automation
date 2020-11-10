@@ -68,10 +68,13 @@ class Volume(Automation):
         print_coloured('$ ./volume.py <number>\n', 'white')
 
     def build_apple_script(self, volume: float) -> str:
-        """
-        Returns a ready-made AppleScript snippet that changes the volume level.
-        @param volume: new volume level
-        @return: AppleScript (osascript) snippet
+        """Builds an AppleScript snippet that changes the volume level.
+
+        Args:
+            volume (float): New volume level.
+
+        Returns:
+            AppleScript (osascript) snippet.
         """
         return f"set Volume {str(volume)}"
 

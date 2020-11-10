@@ -12,7 +12,6 @@ import os
 
 from utils import log
 
-
 BIN_PATH = '/usr/local/bin'
 SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -37,7 +36,6 @@ AUTOMATIONS = [
 
 
 def main() -> None:
-    """The script's main entry point"""
     for automation in AUTOMATIONS:
         source = f"{SCRIPT_PATH}/{automation.script_name}.py"
         destination = f"{BIN_PATH}/{automation.symlink_name}"
