@@ -22,7 +22,7 @@ It's best to set up a virtual environment first
 ```console
 python3 -m venv venv
 source ./venv/bin/activate
-pip install
+pip3 install -r requirements.txt
 ```
 
 ### Unit tests
