@@ -1,9 +1,10 @@
-import pytest
 import subprocess
 from typing import List
 
-from testing_utils import next_alphabetic, next_alphanumeric
+import pytest
+
 import utils
+from .testing_utils import next_alphabetic, next_alphanumeric
 
 MODULE_NAME = 'utils'
 

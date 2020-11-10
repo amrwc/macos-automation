@@ -1,9 +1,10 @@
-import pytest
 from typing import List
 
-from testing_utils import mute_logs, next_alphabetic, next_alphanumeric
-from testing_automation_common import mock_parse_argv
+import pytest
+
 from appearance import Appearance
+from .testing_automation_common import mock_parse_argv
+from .testing_utils import mute_logs, next_alphabetic, next_alphanumeric
 
 MODULE_NAME = 'appearance'
 

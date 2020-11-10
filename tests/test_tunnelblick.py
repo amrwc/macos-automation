@@ -1,10 +1,11 @@
-import pytest
 from typing import List
-from unittest.mock import patch, mock_open
+from unittest.mock import mock_open, patch
 
-from testing_utils import mute_logs, next_alphabetic, next_alphanumeric
-from testing_automation_common import mock_parse_argv
+import pytest
+
 from tunnelblick import Tunnelblick
+from .testing_automation_common import mock_parse_argv
+from .testing_utils import mute_logs, next_alphabetic, next_alphanumeric
 
 MODULE_NAME = 'tunnelblick'
 CONFIG = {

@@ -1,5 +1,5 @@
-from testing_utils import mute_logs
 from goodnight import Goodnight
+from .testing_utils import mute_logs
 
 MODULE_NAME = 'goodnight'
 

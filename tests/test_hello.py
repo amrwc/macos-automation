@@ -1,5 +1,5 @@
-from testing_utils import mute_logs
 from hello import Hello
+from .testing_utils import mute_logs
 
 MODULE_NAME = 'hello'
 

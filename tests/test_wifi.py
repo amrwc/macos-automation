@@ -1,9 +1,10 @@
-import pytest
 from typing import List
 
-from testing_utils import mute_logs, next_alphabetic, next_alphanumeric
-from testing_automation_common import mock_parse_argv
+import pytest
+
 from wifi import Wifi
+from .testing_automation_common import mock_parse_argv
+from .testing_utils import mute_logs, next_alphabetic, next_alphanumeric
 
 MODULE_NAME = 'wifi'
 
@@ -54,8 +55,8 @@ def should_have_printed_usage_instructions(monkeypatch) -> None:
 
 
 @pytest.mark.parametrize('on', [
-    (True),
-    (False),
+    (True,),
+    (False,),
 ])
 def should_have_set_wifi(monkeypatch, on: bool) -> None:
     def mock_execute_cmd(*args: tuple, **kwargs: dict) -> str:

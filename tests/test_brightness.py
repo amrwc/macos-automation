@@ -1,10 +1,11 @@
-import pytest
 import random
 from typing import List
 
-from testing_utils import mute_logs, next_alphanumeric
-from testing_automation_common import mock_parse_argv
+import pytest
+
 from brightness import Brightness
+from .testing_automation_common import mock_parse_argv
+from .testing_utils import mute_logs, next_alphanumeric
 
 MODULE_NAME = 'brightness'
 

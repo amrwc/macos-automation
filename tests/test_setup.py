@@ -1,5 +1,5 @@
-from testing_utils import mute_logs
 import setup
+from .testing_utils import mute_logs
 
 MODULE_NAME = 'setup'
 

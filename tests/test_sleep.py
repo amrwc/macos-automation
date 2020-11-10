@@ -1,5 +1,5 @@
-from testing_utils import mute_logs
 from sleep import Sleep
+from .testing_utils import mute_logs
 
 MODULE_NAME = 'sleep'
 
