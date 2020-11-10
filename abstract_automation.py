@@ -6,18 +6,22 @@ class Automation(ABC):
 
     @abstractmethod
     def execute(self) -> str:
-        """
-        Entry point of the automation script.
-        @return: stdout
+        """Entry point of the automation script.
+
+        Returns:
+            Standard output.
         """
         pass
 
     @abstractmethod
     def parse_argv(self, argv: List[str]) -> List[str]:
-        """
-        Parses and verifies the command-line arguments and returns them with the script name removed.
-        @param argv: command-line arguments
-        @return: parsed arguments
+        """Parses and verifies the command-line arguments and returns them with the script name removed.
+
+        Args:
+            argv: Command-line arguments.
+
+        Returns:
+            Parsed arguments.
         """
         pass
 
