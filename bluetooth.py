@@ -48,7 +48,14 @@ class Bluetooth(Automation):
     def execute(self) -> str:
         log(f"Turning Bluetooth {self.argv[0]}")
         on = self.argv[0] == 'on'
-        return execute_cmd(['blueutil', '-p', ('1' if on else '0')]).strip()
+        try:
+            return execute_cmd(['blueutil', '-p', ('1' if on else '0')]).strip()
+        except Exception as exception:
+            error = exception.message if hasattr(exception, 'message') else str(exception)
+            if "No such file or directory: 'blueutil'" in error:
+                raise_error('`blueutil` is required:\nbrew install blueutil')
+            else:
+                return f"unhandled error: {error}"
 
     def parse_argv(self, argv: List[str]) -> List[str]:
         if len(argv) == 0:
